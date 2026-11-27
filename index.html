@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Vạn Hưng Medical</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap">
+<style>
+/* Layout concept: one site shell, three routed pages. Quiet clinical-editorial: serif headlines, hairline structure, logo blue + logo gold on a mint-tinted white. */
+:root{
+  --bg:#f6faf8; --surface:#ffffff; --tint:#e8f2ef; --fg:#17233b; --muted:#506079;
+  --line:#d3e0dc; --line-strong:#9db3ad;
+  --brand:#2a5a9f; --head:#14284b; --gold:#f8b018; --gold-ink:#14284b;
+  --bar-lp:#2a5a9f; --bar-lp-fg:#ffffff; --bar-ref:#c4d0cd; --bar-ref-fg:#17233b;
+  --f-display:'Newsreader',Georgia,'Times New Roman',serif;
+  --f-body:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1626; --surface:#152038; --tint:#1a2846; --fg:#e4eaf6; --muted:#a2b2cd;
+    --line:#2b3a5c; --line-strong:#5a6c92;
+    --brand:#8fb6f2; --head:#f0f4fb; --gold:#f8b018; --gold-ink:#14284b;
+    --bar-lp:#7fa9ec; --bar-lp-fg:#0e1626; --bar-ref:#3b4b6e; --bar-ref-fg:#e4eaf6;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1626; --surface:#152038; --tint:#1a2846; --fg:#e4eaf6; --muted:#a2b2cd;
+  --line:#2b3a5c; --line-strong:#5a6c92;
+  --brand:#8fb6f2; --head:#f0f4fb; --gold:#f8b018; --gold-ink:#14284b;
+  --bar-lp:#7fa9ec; --bar-lp-fg:#0e1626; --bar-ref:#3b4b6e; --bar-ref-fg:#e4eaf6;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:400 16px/1.65 var(--f-body);-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:30}
+img{display:block;max-width:100%;height:auto}
+a{color:var(--brand)}
+h1,h2,h3{color:var(--head);margin:0;text-wrap:balance}
+h1{font:500 clamp(2rem,4.6vw,3.15rem)/1.12 var(--f-display);letter-spacing:-.01em}
+h2{font:500 clamp(1.5rem,3vw,2rem)/1.2 var(--f-display)}
+h3{font:600 1.02rem/1.35 var(--f-body)}
+p{margin:0}
+sup{font-size:.7em}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:2px}
+.wrap{max-width:1120px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px;padding-block:10px}
+.brand{display:flex;background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+.brand img{height:32px;width:auto}
+.nav{display:flex;gap:4px;margin-left:auto;min-width:0}
+.nav a{color:var(--fg);text-decoration:none;font-weight:500;font-size:.95rem;padding:8px 12px;border-bottom:2px solid transparent;white-space:nowrap}
+.nav a:hover{color:var(--brand)}
+.nav a[aria-current="page"]{border-bottom-color:var(--gold);color:var(--head)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 .95rem/1 var(--f-body);padding:12px 18px;border-radius:6px;border:1px solid var(--line-strong);background:transparent;color:var(--head);text-decoration:none;cursor:pointer}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:var(--gold-ink)}
+.btn.gold:hover{filter:brightness(.95);color:var(--gold-ink)}
+@media (max-width:720px){
+  .nav{order:3;width:100%;margin-left:0;overflow-x:auto}
+  .top .btn{margin-left:auto}
+}
+
+/* page structure */
+.page-head{padding-block:48px 40px;display:grid;gap:32px 48px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:880px){.page-head.has-media{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center}}
+.eyebrow{font:600 .75rem/1.2 var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-bottom:14px}
+.lead{font-size:1.1rem;line-height:1.7;color:var(--muted);max-width:62ch;margin-top:18px}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.section{padding-block:52px;border-top:1px solid var(--line)}
+.split{display:grid;gap:24px 56px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:880px){.split{grid-template-columns:minmax(0,1fr) minmax(0,2fr)}}
+.split>div{min-width:0}
+.sub{color:var(--muted);margin-top:12px;max-width:44ch;font-size:.95rem}
+.prose p+p{margin-top:14px}
+.prose{max-width:64ch}
+.photo{border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.photo img{width:100%}
+.panel-white{background:#fff;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:16px}
+.panel-white img{max-height:340px;width:auto}
+.cap{font-size:.85rem;color:var(--muted);margin-top:8px}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;margin:0;padding:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.facts div{padding:18px 20px 18px 0}
+.facts dt{font:500 1.7rem/1.1 var(--f-display);color:var(--head)}
+.facts dd{margin:6px 0 0;font-size:.9rem;color:var(--muted)}
+
+/* grids */
+.cols-4{display:grid;gap:28px 32px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.cols-3{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.cols-2{display:grid;gap:24px 40px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.cols-4>*,.cols-3>*,.cols-2>*{min-width:0}
+.val p{color:var(--muted);font-size:.95rem;margin-top:6px}
+.val{padding-top:14px;border-top:2px solid var(--gold)}
+
+.prod{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.prod .panel-white{border:0;border-radius:0;border-bottom:1px solid var(--line);height:210px}
+.prod .panel-white img{max-height:178px;max-width:100%;object-fit:contain}
+.prod .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.prod .tag{font-size:.8rem;color:var(--muted)}
+.prod a{margin-top:auto;font-weight:600;font-size:.92rem}
+
+.list{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.list li{position:relative;padding-left:20px}
+.list li::before{content:"";position:absolute;left:2px;top:.72em;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+.cat h3{margin-bottom:10px}
+.cat .list{font-size:.95rem;color:var(--muted)}
+
+.steps{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;gap:20px 28px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.steps li{counter-increment:s;border-top:1px solid var(--line-strong);padding-top:14px}
+.steps li::before{content:counter(s,decimal-leading-zero);display:block;font:500 1.5rem/1 var(--f-display);color:var(--brand);margin-bottom:10px}
+.steps p{color:var(--muted);font-size:.93rem;margin-top:6px}
+
+.events{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 0;padding:0;list-style:none}
+.events li{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:10px 14px;font-size:.93rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none}
+.chips li{border:1px solid var(--line-strong);border-radius:999px;padding:6px 14px;font-size:.93rem;background:var(--surface)}
+
+.closing{background:var(--tint);border-radius:10px;padding:36px;display:grid;gap:12px}
+.closing .big{font:500 clamp(1.5rem,3vw,2.1rem)/1.2 var(--f-display);color:var(--head)}
+.closing .slogan{font-weight:600;color:var(--brand);letter-spacing:.02em}
+@media (max-width:560px){.closing{padding:24px 20px}}
+
+.callout{background:var(--tint);border-radius:10px;padding:22px 24px;margin-top:26px;font:500 clamp(1.25rem,2.4vw,1.6rem)/1.3 var(--f-display);color:var(--head)}
+
+/* compare */
+.compare{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.compare figure{margin:0;min-width:0}
+.compare img{border-radius:8px;border:1px solid var(--line);width:100%;aspect-ratio:4/3;object-fit:cover;background:#fff}
+.compare figcaption{margin-top:10px;font-weight:600;font-size:.95rem;color:var(--head)}
+
+/* charts and tables */
+.chart{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:20px 22px}
+.chart h3{font-size:.95rem}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin:10px 0 16px;padding:0;list-style:none;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.i-lp{background:var(--bar-lp)}.i-ref{background:var(--bar-ref)}
+.plot{display:grid;gap:16px;position:relative}
+.plot::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,var(--line) 0 1px,transparent 1px 25%);background-size:calc(100% - 1px) 100%;opacity:.7;pointer-events:none}
+.plot::after{content:"";position:absolute;right:0;top:0;bottom:0;width:1px;background:var(--line);pointer-events:none}
+.metric{position:relative;z-index:1}
+.metric .name{font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--head)}
+.bar{height:30px;border-radius:0 4px 4px 0;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font:600 .85rem/1 var(--f-body);width:calc(var(--v) * 1%);min-width:46px;font-variant-numeric:tabular-nums}
+.bar+.bar{margin-top:4px}
+.bar.lp{background:var(--bar-lp);color:var(--bar-lp-fg)}
+.bar.ref{background:var(--bar-ref);color:var(--bar-ref-fg)}
+.axis{display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted);margin-top:8px;font-variant-numeric:tabular-nums}
+.stack{display:flex;height:34px;border-radius:4px;overflow:hidden;border:1px solid var(--line-strong);margin-top:14px}
+.stack .s1{width:17%;background:var(--bar-lp)}
+.stack .s2{width:11%;background:repeating-linear-gradient(135deg,var(--bar-lp) 0 3px,transparent 3px 7px)}
+.stack .s3{flex:1;background:var(--tint)}
+.stack-labels{display:flex;flex-wrap:wrap;gap:6px 24px;margin-top:12px;font-size:.9rem}
+.stack-labels b{color:var(--head)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem;font-variant-numeric:tabular-nums}
+th,td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line)}
+th:first-child,td:first-child{text-align:left}
+thead th{font-weight:600;color:var(--head);background:var(--tint);vertical-align:bottom}
+tbody tr:last-child td{border-bottom:0}
+td.hi{font-weight:600;color:var(--head)}
+.refs{font-size:.82rem;color:var(--muted);margin-top:12px;display:grid;gap:2px}
+.defs{font-size:.88rem;color:var(--muted);margin:12px 0 0;padding:0;list-style:none;display:grid;gap:2px}
+.stack-gap>*+*{margin-top:22px}
+
+/* decision tree */
+.tree{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:24px;display:grid;gap:0;justify-items:center}
+.node{border:1px solid var(--line-strong);border-radius:6px;padding:10px 14px;text-align:center;font-weight:600;font-size:.93rem;color:var(--head);background:var(--bg);width:100%}
+.node small{display:block;font-weight:400;color:var(--muted);font-size:.8rem}
+.tree-root{max-width:340px}
+.down{width:2px;height:22px;background:var(--line-strong);position:relative;margin:0 auto}
+.down::after{content:"";position:absolute;left:-4px;bottom:-1px;border:5px solid transparent;border-top:7px solid var(--line-strong);border-bottom:0}
+.tree-cols{display:grid;gap:24px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));width:100%}
+.branch{display:flex;flex-direction:column;align-items:center;min-width:0}
+.outs{display:grid;gap:10px;width:100%}
+.outs .node{font-weight:500;background:var(--tint);border-color:transparent}
+@media (min-width:760px){
+  .tree>.down::after{display:none}
+  .tree-cols{position:relative}
+  .tree-cols::before{content:"";position:absolute;top:0;left:calc((100% - 48px)/6);right:calc((100% - 48px)/6);height:2px;background:var(--line-strong)}
+  .branch{position:relative;padding-top:18px}
+  .branch::before{content:"";position:absolute;top:0;left:50%;width:2px;height:18px;margin-left:-1px;background:var(--line-strong)}
+}
+
+.faq{display:grid;gap:22px 40px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.faq>div{min-width:0}
+.faq h3{margin-bottom:6px}
+.faq p{color:var(--muted);font-size:.95rem}
+
+.ticks{margin:0;padding:0;list-style:none;display:grid;gap:10px 28px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.ticks li{display:flex;gap:10px;align-items:flex-start}
+.ticks li::before{content:"";flex:none;width:18px;height:18px;margin-top:3px;border-radius:50%;background:var(--tint);border:1px solid var(--line-strong);background-image:linear-gradient(var(--brand),var(--brand));background-size:6px 6px;background-repeat:no-repeat;background-position:center}
+
+.guide{display:grid;gap:28px 40px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:880px){.guide{grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:start}}
+.guide img{border-radius:6px;border:1px solid var(--line);background:#fff}
+.method{display:grid;gap:22px 32px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.method ol{margin:10px 0 0;padding-left:20px;display:grid;gap:8px;font-size:.95rem;color:var(--muted)}
+.note{margin-top:22px;font-size:.92rem;color:var(--muted);display:grid;gap:6px}
+.note b{color:var(--head)}
+
+/* footer */
+.foot{margin-top:24px;background:var(--surface);border-top:1px solid var(--line);padding-block:44px 36px}
+.foot .grid{display:grid;gap:28px 48px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.foot h2{font-size:1.4rem}
+.foot dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;font-size:.95rem}
+.foot dt{color:var(--muted)}
+.foot dd{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:8px;overflow-wrap:anywhere}
+.copy{font:500 .75rem/1 var(--f-body);padding:5px 9px;border:1px solid var(--line-strong);border-radius:4px;background:transparent;color:var(--brand);cursor:pointer}
+.disclaimer{font-size:.85rem;color:var(--muted);margin-top:32px;padding-top:20px;border-top:1px solid var(--line);max-width:80ch}
+.pc{display:grid;gap:22px 40px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.pc>div{min-width:0}
+.pc h3{margin-bottom:12px}
+.safety{display:grid;gap:28px 48px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:880px){.safety{grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:start}}
+.safety .photo img{aspect-ratio:2/3;object-fit:cover}
+.motto{font:500 clamp(1.25rem,2.4vw,1.6rem)/1.3 var(--f-display);color:var(--head);margin-top:20px}
+.checks{display:grid;gap:22px 28px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:36px}
+.checks>div{border-top:1px solid var(--line-strong);padding-top:14px;min-width:0}
+.checks p{color:var(--muted);font-size:.93rem;margin-top:6px}
+.checks p+p{margin-top:8px}
+.yr th.y,.yr td.y{text-align:center}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--brand)}
+[hidden]{display:none!important}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#gioi-thieu" aria-label="Vạn Hưng Medical, trang giới thiệu"><img src="img/logo.png" alt="Vạn Hưng" width="92" height="32"></a>
+    <nav class="nav" aria-label="Các trang">
+      <a href="#gioi-thieu" data-nav="gioi-thieu">Giới thiệu</a>
+      <a href="#ky-thuat" data-nav="ky-thuat">Kỹ thuật Liqui-PREP®</a>
+      <a href="#histopot" data-nav="histopot">HistoPot</a>
+      <a href="#xet-nghiem-pap" data-nav="xet-nghiem-pap">Xét nghiệm Pap</a>
+      <a href="#hoat-dong-khoa-hoc" data-nav="hoat-dong-khoa-hoc">Hoạt động khoa học</a>
+    </nav>
+    <button class="btn gold" type="button" data-scroll="lien-he">Liên hệ</button>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ TRANG 1: GIỚI THIỆU ============ -->
+<section id="p-gioi-thieu" aria-label="Giới thiệu công ty Vạn Hưng">
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <div class="eyebrow">Về Vạn Hưng</div>
+        <h1>Giải pháp toàn diện hóa chất xét nghiệm Giải phẫu bệnh – Tế bào học</h1>
+        <p class="lead">Công ty TNHH Trang thiết bị y tế Vạn Hưng (Van Hung Medical Equipment Co., Ltd.) là nhà cung cấp giải pháp toàn diện về trang thiết bị, hóa chất và vật tư xét nghiệm Giải phẫu bệnh – Tế bào học.</p>
+        <div class="actions">
+          <a class="btn gold" href="#ky-thuat">Kỹ thuật Liqui-PREP®</a>
+          <button class="btn" type="button" data-scroll="lien-he">Yêu cầu tư vấn</button>
+        </div>
+      </div>
+    </div>
+    <figure class="photo" style="margin:0"><img src="img/lab.jpg" alt="Kỹ thuật viên phòng xét nghiệm làm việc bên máy phân tích" width="1400" height="486"></figure>
+    <dl class="facts" style="margin-top:32px">
+      <div><dt>2010</dt><dd>Thành lập tại TP.HCM</dd></div>
+      <div><dt>Gần 17 năm</dt><dd>Đồng hành cùng Quý Bác sĩ</dd></div>
+      <div><dt>&gt; 20.000</dt><dd>Ca bất thường được phát hiện sớm</dd></div>
+      <div><dt>&gt; 1 triệu</dt><dd>Ca sàng lọc lũy kế (2013–2026)</dd></div>
+    </dl>
+  </div>
+
+  <div class="wrap">
+    <div class="section split">
+      <div><h2>Về chúng tôi</h2></div>
+      <div class="prose">
+        <p>Chúng tôi tự hào luôn đồng hành cùng Quý Bác sĩ trong sứ mệnh giúp hàng triệu chị em phụ nữ Việt Nam phòng ngừa ung thư phụ khoa. Gần 17 năm qua, sự đồng hành này đã được tín nhiệm và ghi nhận.</p>
+        <p>Công ty hoạt động từ năm 2010 tại Phường Chánh Hưng (Phường 4, Quận 8 cũ), TP.HCM. Chúng tôi nhập khẩu và phân phối hóa chất, thiết bị, dụng cụ phục vụ chẩn đoán và xét nghiệm.</p>
+        <p>Khách hàng là bệnh viện, phòng khám đa khoa và trung tâm xét nghiệm. Vạn Hưng cam kết hồ sơ nguồn gốc, hướng dẫn lắp đặt và hỗ trợ sau bán.</p>
+      </div>
+    </div>
+
+    <div class="section split">
+      <div><h2>Giá trị chúng tôi theo đuổi</h2></div>
+      <div class="cols-2" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr))">
+        <div class="val"><h3>Chất lượng quốc tế</h3><p>Sản phẩm nhập khẩu độc quyền, có hồ sơ nguồn gốc.</p></div>
+        <div class="val"><h3>Đồng hành chuyên môn</h3><p>Dưới sự hỗ trợ của đội ngũ bác sĩ đầu ngành và kỹ thuật viên chuyên môn cao.</p></div>
+        <div class="val"><h3>Chuỗi cung ứng ổn định</h3><p>Đáp ứng hàng hóa nhanh chóng và kịp thời.</p></div>
+        <div class="val"><h3>Vì cộng đồng</h3><p>Luôn đặt mục tiêu vì sức khỏe cộng đồng lên hàng đầu.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Danh mục sản phẩm</h2>
+      <p class="sub" style="max-width:72ch">Vạn Hưng cung cấp hóa chất Pap nhúng dịch Liqui-PREP®, hóa chất HPV DNA công nghệ HC2, bộ thu mẫu tế bào học, bộ FNA và bộ hóa chất tuyến giáp, phục vụ lab, bệnh viện, phòng khám và phòng mạch tư.</p>
+      <div class="cols-3" style="margin-top:26px">
+        <article class="prod">
+          <div class="panel-white"><img src="img/lbc.jpg" alt="Lọ bảo quản mẫu Liqui-PREP" width="400" height="300"></div>
+          <div class="body">
+            <h3>Bộ hóa chất LBC</h3>
+            <div class="tag">Xét nghiệm tế bào học</div>
+            <p style="font-size:.93rem;color:var(--muted)">Hệ thống kỹ thuật Liqui-PREP® chuẩn bị mẫu tế bào học nhúng dịch, kèm bộ dụng cụ thu mẫu chuyên dụng.</p>
+            <a href="#ky-thuat">Xem kỹ thuật Liqui-PREP®</a>
+          </div>
+        </article>
+        <article class="prod">
+          <div class="panel-white"><img src="img/hc2.jpg" alt="Bộ hóa chất xét nghiệm HPV DNA HC2" width="551" height="371"></div>
+          <div class="body">
+            <h3>Bộ hóa chất HC2</h3>
+            <div class="tag">Xét nghiệm HPV DNA</div>
+            <p style="font-size:.93rem;color:var(--muted)">Hóa chất HPV DNA công nghệ HC2, dùng được trên phần mẫu nhúng dịch còn lại.</p>
+          </div>
+        </article>
+        <article class="prod">
+          <div class="panel-white"><img src="img/histopot.jpg" alt="Sản phẩm HistoPot cố định mô học" width="700" height="402"></div>
+          <div class="body">
+            <h3>Hóa chất HistoPot</h3>
+            <div class="tag">Xét nghiệm mô học</div>
+            <p style="font-size:.93rem;color:var(--muted)">Dung dịch cố định mô học đóng gói tiện lợi, giảm thao tác với hóa chất độc hại.</p>
+            <a href="#histopot">Xem HistoPot</a>
+          </div>
+        </article>
+      </div>
+
+      <h3 style="margin-top:44px;font-size:1.15rem">Cấu trúc danh mục</h3>
+      <div class="cols-3" style="margin-top:20px;gap:28px">
+        <div class="cat">
+          <h3>Tế bào học nhúng dịch (LBC)</h3>
+          <ul class="list">
+            <li>Hệ thống kỹ thuật Liqui-PREP®: bộ hóa chất chuẩn bị mẫu (Preservative, Cleaning Solution, Cell Base).</li>
+            <li>Bộ dụng cụ thu mẫu chuyên dụng: chổi thu tế bào cổ tử cung (Cervex Brush), que lấy mẫu vô trùng dùng một lần.</li>
+            <li>Bộ hóa chất xử lý tế bào FNA (chọc hút kim nhỏ): ly giải tạp chất, bảo tồn hình thái tế bào tuyến giáp, tuyến vú, hạch.</li>
+          </ul>
+        </div>
+        <div class="cat">
+          <h3>Thiết bị và máy móc phòng xét nghiệm</h3>
+          <ul class="list">
+            <li>Máy ly tâm chuyên dụng cho tế bào học.</li>
+            <li>Máy dàn lam / chuyển mẫu tự động (thin-layer cytopreparation).</li>
+            <li>Kính hiển vi quang học phòng lab.</li>
+            <li>Hệ thống máy đọc và phân tích tự động.</li>
+          </ul>
+        </div>
+        <div class="cat">
+          <h3>Hóa chất và vật tư tiêu hao giải phẫu bệnh</h3>
+          <ul class="list">
+            <li>Dung dịch cố định mô: formalin đệm trung tính 10% (NBF) đạt chuẩn.</li>
+            <li>Lam kính chuyên dụng (kính mang vật dính tĩnh điện / silane), lamen.</li>
+            <li>Cassette vùi mô, sáp parafin chuyên dụng, hóa chất nhuộm (Hematoxylin &amp; Eosin, Papanicolaou).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Quy trình hợp tác</h2>
+      <ol class="steps" style="margin-top:26px">
+        <li><h3>Tư vấn cấu hình</h3><p>Xem nhu cầu khoa phòng, ngân sách và tiêu chuẩn kỹ thuật.</p></li>
+        <li><h3>Báo giá và hồ sơ</h3><p>CO/CQ, catalogue, điều kiện bảo hành và tiến độ giao hàng.</p></li>
+        <li><h3>Giao nhận, lắp đặt</h3><p>Vận chuyển TP.HCM và toàn quốc, hướng dẫn kỹ thuật tại chỗ.</p></li>
+        <li><h3>Bảo trì định kỳ</h3><p>Phụ kiện, hiệu chuẩn và hỗ trợ sau triển khai.</p></li>
+      </ol>
+    </div>
+
+    <div class="section" style="border-top:0;padding-top:12px">
+      <div class="closing">
+        <div class="eyebrow" style="margin:0">2010 – 2026</div>
+        <div class="big">Gần 17 năm hân hạnh phụng sự</div>
+        <p style="max-width:62ch">Công ty TNHH Trang thiết bị y tế Vạn Hưng hân hạnh và biết ơn Quý Thầy Cô, Quý anh chị y bác sĩ đã tín nhiệm Liqui-PREP®.</p>
+        <div class="slogan">Sức khỏe phụ nữ – Hạnh phúc gia đình</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANG 2: KỸ THUẬT LIQUI-PREP ============ -->
+<section id="p-ky-thuat" aria-label="Kỹ thuật Liqui-PREP" hidden>
+  <div class="wrap">
+    <div class="page-head has-media">
+      <div>
+        <div class="eyebrow">Kỹ thuật</div>
+        <h1>Vì sao chọn Pap nhúng dịch Liqui-PREP®</h1>
+        <p class="lead">Liqui-PREP® thế hệ thứ hai dùng chất bảo quản tế bào, chất làm sạch mẫu và chất kết nang. Tế bào cổ tử cung không chồng lấp, quan sát rõ dưới kính hiển vi sau khi ly giải chất nhầy và loại hồng cầu.</p>
+        <ul class="list" style="margin-top:24px">
+          <li>Thu nhận nhiều tế bào hơn, hạn chế bỏ sót bất thường.</li>
+          <li>Bảo quản mẫu ổn định, hỗ trợ chẩn đoán.</li>
+          <li>Tăng độ nhạy, độ đặc hiệu; giảm âm tính giả và dương tính giả.</li>
+          <li>Tăng tỷ lệ phát hiện LSIL và HSIL; giảm lam không đạt.</li>
+        </ul>
+      </div>
+      <div class="panel-white"><img src="img/jar.jpg" alt="Lọ bảo quản mẫu Liqui-PREP kèm chổi thu mẫu" width="384" height="405"></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="section split">
+      <div>
+        <h2>Kỹ thuật LBC: vì sao tốt hơn</h2>
+        <p class="sub">Cùng một loại mẫu, khác nhau ở cách tế bào được dàn lên lam.</p>
+      </div>
+      <div>
+        <div class="compare">
+          <figure><img src="img/cells-conventional.jpg" alt="Tiêu bản Pap thường quy, tế bào tụ thành đám" width="320" height="240"><figcaption>Xét nghiệm kỹ thuật thường quy</figcaption></figure>
+          <figure><img src="img/cells-liquiprep.jpg" alt="Tiêu bản Liqui-PREP, tế bào dàn mỏng và rời nhau" width="640" height="446"><figcaption>Xét nghiệm kỹ thuật Liqui-PREP®</figcaption></figure>
+        </div>
+        <p class="prose" style="margin-top:20px">Vạn Hưng hân hạnh đồng hành cùng các bệnh viện, phòng xét nghiệm và cơ sở y tế nâng cao chất lượng chẩn đoán cận lâm sàng bằng các giải pháp công nghệ đạt chuẩn quốc tế.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="split" style="margin-bottom:28px">
+        <div>
+          <h2>Bằng chứng: Liqui-PREP® cải thiện độ chính xác</h2>
+        </div>
+        <div>
+          <p class="prose">Dựa trên kết quả nghiên cứu và đánh giá lâm sàng của Nadereh Behtash, Zeinab Narari và cộng sự (2008)<sup>[1]</sup> và Joonseok Park và cộng sự (2007)<sup>[2]</sup>.</p>
+          <ul class="list" style="margin-top:16px">
+            <li>Giảm tỷ lệ âm tính giả 50%<sup>[3]</sup>.</li>
+            <li>Tương thích sinh học với HPV DNA<sup>[1]</sup>.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="cols-2" style="align-items:start;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))">
+        <figure class="chart" aria-labelledby="c1">
+          <h3 id="c1">Độ nhạy và độ đặc hiệu (%)</h3>
+          <ul class="legend"><li><i class="i-lp"></i>Liqui-PREP®</li><li><i class="i-ref"></i>Phết thường quy</li></ul>
+          <div class="plot">
+            <div class="metric"><div class="name">Độ nhạy</div>
+              <div class="bar lp" style="--v:86">86%</div>
+              <div class="bar ref" style="--v:66">66%</div></div>
+            <div class="metric"><div class="name">Độ đặc hiệu</div>
+              <div class="bar lp" style="--v:98">98%</div>
+              <div class="bar ref" style="--v:86">86%</div></div>
+          </div>
+          <div class="axis" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+          <div class="cap">Nguồn: Behtash và cs., 2008<sup>[1]</sup>.</div>
+        </figure>
+
+        <div>
+          <div class="tbl-wrap">
+            <table style="min-width:0">
+              <caption style="text-align:left;padding:14px 14px 4px;font-weight:600;color:var(--head);caption-side:top">Tỷ lệ phát hiện theo loại kết quả (%)</caption>
+              <thead><tr><th></th><th>Liqui-PREP®</th><th>Phết thường quy</th></tr></thead>
+              <tbody>
+                <tr><td>ASC-US</td><td class="hi">6,5</td><td>2,8</td></tr>
+                <tr><td>ASC-H</td><td class="hi">0,24</td><td>0,09</td></tr>
+                <tr><td>LSIL</td><td class="hi">1,55</td><td>0,50</td></tr>
+                <tr><td>HSIL</td><td class="hi">0,4</td><td>0,2</td></tr>
+                <tr><td>Lam không đạt yêu cầu</td><td class="hi">0,02</td><td>0,05</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="cap">Nguồn: Park và cs., 2007<sup>[2]</sup>.</div>
+        </div>
+      </div>
+
+      <h3 style="margin:44px 0 6px;font-size:1.15rem">Tỷ lệ LSIL và HSIL qua các nghiên cứu</h3>
+      <p style="color:var(--muted);font-size:.95rem;margin-bottom:14px">Xét nghiệm Pap nhúng dịch Liqui-PREP® có tỷ lệ LSIL và HSIL cao hơn (p &lt; 0,001).</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th rowspan="2">Nghiên cứu</th><th rowspan="2">Cỡ mẫu</th><th colspan="2" style="text-align:center">Thường quy</th><th colspan="2" style="text-align:center">Nhúng dịch Liqui-PREP®</th></tr>
+            <tr><th>LSIL</th><th>HSIL</th><th>LSIL</th><th>HSIL</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Park J., 2009. Đoàn hệ, Hàn Quốc</td><td>TQ 218.548; Liqui-PREP® 26.176</td><td>0,5%</td><td>0,25%</td><td class="hi">1,4%</td><td class="hi">0,39%</td></tr>
+            <tr><td>Canda M.T., 2009. Đoàn hệ, Thổ Nhĩ Kỳ</td><td>TQ 2.000; Liqui-PREP® 4.000</td><td>1,4%</td><td>0,20%</td><td class="hi">2,25%</td><td class="hi">0,25%</td></tr>
+            <tr><td>Deshou H., 2009. Đoàn hệ, Trung Quốc</td><td>TQ 31.500; Liqui-PREP® 31.500</td><td>0,41%</td><td>0,28%</td><td class="hi">1,80%</td><td class="hi">0,58%</td></tr>
+            <tr><td>Rangdaeng S., 2007. Chia đôi mẫu, Thái Lan</td><td>TQ 1.030; Liqui-PREP® 1.030</td><td>1,8%</td><td>1,9%</td><td class="hi">2,4%</td><td class="hi">2,3%</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="defs">
+        <li>TQ: thường quy. ASC-US: tế bào vảy không điển hình, chưa xác định ý nghĩa. ASC-H: tế bào vảy không điển hình, không loại trừ tổn thương nội biểu mô gai độ cao.</li>
+        <li>LSIL: tổn thương trong thượng mô gai độ thấp (Low-grade Squamous Intraepithelial Lesion).</li>
+        <li>HSIL: tổn thương trong thượng mô gai độ cao (High-grade Squamous Intraepithelial Lesion).</li>
+      </ul>
+      <div class="refs">
+        <span>[1] Research Journal of Biological Sciences, 2008.</span>
+        <span>[2] Diagnostic Cytopathology, 2007, tập 35, số 8.</span>
+        <span>[3] Asian Pacific Journal of Cancer Prevention, 2009.</span>
+      </div>
+    </div>
+
+    <div class="section split">
+      <div><h2>Lợi ích của Liqui-PREP®</h2></div>
+      <div class="cols-2" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+        <div>
+          <h3 style="margin-bottom:12px">Với lâm sàng</h3>
+          <ul class="list">
+            <li>Lam sạch, dễ đọc, góp phần chẩn đoán chính xác.</li>
+            <li>Giảm bỏ sót tổn thương tiền ung thư (ASC-US, LSIL, HSIL), giúp bệnh nhân có thời gian vàng để điều trị hiệu quả.</li>
+            <li>Dụng cụ y khoa tiên tiến giúp công đoạn lấy mẫu đạt yêu cầu.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="margin-bottom:12px">Với bệnh viện và phòng xét nghiệm</h3>
+          <ul class="list">
+            <li>Quy trình dễ ứng dụng, chuẩn hóa hệ thống.</li>
+            <li>Giảm chi phí tái xét nghiệm và khiếu nại.</li>
+            <li>Tăng hiệu quả điều trị nhờ chẩn đoán chính xác.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section split">
+      <div>
+        <h2>Tiêu chuẩn chất lượng</h2>
+        <p class="sub">Xét nghiệm Pap tiêu chuẩn, định kỳ, góp phần phòng ngừa ung thư cổ tử cung hiệu quả.</p>
+      </div>
+      <ul class="ticks">
+        <li>Được FDA chứng nhận</li>
+        <li>Đạt tiêu chuẩn CE</li>
+        <li>Đạt ISO 13485:2016</li>
+        <li>Tương thích HPV DNA</li>
+        <li>Xuất xứ từ Mỹ</li>
+        <li>Cho kết quả chẩn đoán chính xác cao hơn</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Hướng dẫn thu mẫu bằng bộ thu mẫu Liqui-PREP®</h2>
+      <p class="sub" style="max-width:70ch">Gửi Quý bác sĩ và cán bộ y tế phòng khám sản phụ khoa. Quy trình thu mẫu tế bào cổ tử cung kỹ thuật Pap công nghệ Liqui-PREP.</p>
+      <div class="guide" style="margin-top:28px">
+        <figure style="margin:0"><img src="img/guide.jpg" alt="Tờ hướng dẫn quy trình thu mẫu tế bào cổ tử cung kỹ thuật Liqui-PREP" width="601" height="846"></figure>
+        <div>
+          <div class="method">
+            <div>
+              <h3>Dùng Broom (Cervex)</h3>
+              <ol>
+                <li>Đặt Broom vào cổ tử cung: phần trục giữa ở cổ trong, phần lông ngắn ở cổ ngoài. Xoay mạnh 5 vòng theo chiều kim đồng hồ.</li>
+                <li>Tháo phần đầu Broom, cho vào lọ dung dịch bảo quản Liqui-Prep Preservation.</li>
+                <li>Vặn chặt nắp lọ.</li>
+                <li>Ghi đầy đủ thông tin bệnh nhân trên nhãn ngoài lọ và trên phiếu chỉ định.</li>
+              </ol>
+            </div>
+            <div>
+              <h3>Hoặc dùng Plastic Spatula và Cytobrush</h3>
+              <ol>
+                <li>Đặt Spatula vào cổ tử cung, xoay mạnh 360° theo mũi tên. Đặt Cytobrush vào kênh cổ tử cung, xoay mạnh 180° theo một chiều.</li>
+                <li>Nhúng Spatula và Cytobrush vào lọ dung dịch bảo quản Liqui-Prep Preservation. Đè và quậy mạnh trong lọ 10 lần, rồi lấy ra.</li>
+                <li>Vặn chặt nắp lọ.</li>
+                <li>Ghi đầy đủ thông tin bệnh nhân trên nhãn ngoài lọ và trên phiếu chỉ định.</li>
+              </ol>
+            </div>
+          </div>
+          <div class="note">
+            <p><b>Lưu ý.</b> Broom Cervex, Spatula và Cytobrush là dụng cụ thu mẫu tế bào cổ tử cung chỉ dùng một lần, không tái sử dụng. Không dùng dụng cụ khi bao bì bảo quản đã bị rách. Chỉ người có trình độ chuyên môn phù hợp mới được sử dụng.</p>
+            <p><b>Chống chỉ định.</b> Không sử dụng dụng cụ cho bệnh nhân trong thai kỳ.</p>
+            <p><b>Ghi chú.</b> Không thu mẫu khi bệnh nhân đang có kinh. Hai ngày trước khi xét nghiệm không được thụt rửa, không nên giao hợp trong vòng 24 giờ.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section split">
+      <div><h2>Hỏi đáp về kỹ thuật</h2></div>
+      <div class="stack-gap">
+        <div class="faq" style="grid-template-columns:minmax(0,1fr)">
+          <div><h3>Liqui-PREP® khác Pap thường quy chỗ nào?</h3><p>Mẫu được bảo quản trong dung dịch. Lab ly giải chất nhầy, làm sạch hồng cầu rồi dàn tế bào lớp mỏng trên lam. Quan sát nhân và bào tương rõ hơn, hỗ trợ tăng độ nhạy và giảm lam không đạt so với phết khô.</p></div>
+          <div><h3>Mẫu Liqui-PREP® bảo quản và gửi lab thế nào?</h3><p>Nhúng hoặc để đầu chổi trong lọ dung dịch bảo quản, đậy kín, ghi họ tên. Gửi cả lọ đến phòng xét nghiệm, không phết lam tại bàn khám như Pap thường quy.</p></div>
+          <div><h3>Có thể làm thêm HPV DNA trên cùng mẫu không?</h3><p>Tùy quy trình lab. Mẫu nhúng dịch thường cho phép dùng phần còn lại để xét nghiệm HPV DNA công nghệ HC2. Ghi rõ trên phiếu nếu cần làm đồng thời Pap và HPV.</p></div>
+          <div><h3>Phòng mạch tư gửi mẫu đọc kết quả ở đâu?</h3><p>Đối tác phòng mạch tư có thể gửi mẫu Pap nhúng dịch Liqui-PREP® đến Bệnh viện Từ Dũ, Trung tâm Y khoa Medic hoặc Phòng xét nghiệm y khoa MedPaDiag. Vạn Hưng hướng dẫn hóa chất và quy trình gửi mẫu.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANG 3: XÉT NGHIỆM PAP ============ -->
+<section id="p-xet-nghiem-pap" aria-label="Tầm quan trọng của xét nghiệm Pap" hidden>
+  <div class="wrap">
+    <div class="page-head has-media">
+      <div>
+        <div class="eyebrow">Xét nghiệm Pap</div>
+        <h1>Tại sao xét nghiệm Pap lại quan trọng?</h1>
+        <p class="lead">Xét nghiệm Pap là một xét nghiệm rất đơn giản để tìm những biến đổi bất thường của tế bào cổ tử cung. Vì những biến đổi này có thể đưa đến ung thư.</p>
+        <div class="callout">Nếu phát hiện sớm, có thể điều trị khỏi.</div>
+      </div>
+      <figure class="photo" style="margin:0"><img src="img/family.jpg" alt="Gia đình hạnh phúc: cha mẹ và hai con vui đùa ngoài trời" width="1100" height="692"></figure>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="section split">
+      <div>
+        <h2>Thực trạng tại Việt Nam</h2>
+        <p class="sub">Cần được quan tâm và mở rộng chương trình tầm soát để góp phần phòng ngừa ca mắc mới.</p>
+      </div>
+      <div>
+        <dl class="facts" style="border-top:0">
+          <div><dt>25–27 triệu</dt><dd>Phụ nữ trong độ tuổi 21–65</dd></div>
+          <div><dt>4.100–4.600</dt><dd>Ca mắc mới</dd></div>
+          <div><dt>&gt; 2.400</dt><dd>Ca tử vong</dd></div>
+        </dl>
+        <figure class="chart" style="margin-top:8px" aria-labelledby="c2">
+          <h3 id="c2">Tỷ lệ phụ nữ đã được tầm soát Pap</h3>
+          <div class="stack" role="img" aria-label="Đã tầm soát Pap từ 17 đến 28 phần trăm, chưa được tầm soát từ 72 đến 83 phần trăm">
+            <div class="s1"></div><div class="s2"></div><div class="s3"></div>
+          </div>
+          <div class="axis" aria-hidden="true"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+          <div class="stack-labels">
+            <span><b>Đã tầm soát Pap:</b> 17–28%</span>
+            <span><b>Chưa được tầm soát:</b> 72–83%</span>
+          </div>
+        </figure>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Phác đồ sàng lọc theo hướng dẫn quốc gia</h2>
+      <p class="sub" style="max-width:70ch">Hướng dẫn quốc gia về dự phòng và kiểm soát ung thư cổ tử cung giai đoạn 2026–2035. Phác đồ 1: sàng lọc dựa vào xét nghiệm tế bào cổ tử cung.</p>
+      <div class="tree" style="margin-top:26px">
+        <div class="node tree-root">Xét nghiệm tế bào cổ tử cung<small>(thường quy hoặc nhúng dịch)</small></div>
+        <div class="down" aria-hidden="true"></div>
+        <div class="tree-cols" style="margin-top:0">
+          <div class="branch">
+            <div class="node">Bình thường</div><div class="down" aria-hidden="true"></div>
+            <div class="outs"><div class="node">Sàng lọc lại sau 2 năm</div></div>
+          </div>
+          <div class="branch">
+            <div class="node">ASC-US</div><div class="down" aria-hidden="true"></div>
+            <div class="outs"><div class="node">Xét nghiệm HPV</div><div class="node">Xét nghiệm tế bào sau 1 năm</div></div>
+          </div>
+          <div class="branch">
+            <div class="node">≥ ASC-H</div><div class="down" aria-hidden="true"></div>
+            <div class="outs"><div class="node">Soi cổ tử cung để chẩn đoán và điều trị</div></div>
+          </div>
+        </div>
+      </div>
+      <ul class="defs">
+        <li>ASC-US: Atypical squamous cells of undetermined significance.</li>
+        <li>ASC-H: Atypical squamous cells, cannot exclude high-grade squamous intraepithelial lesion.</li>
+      </ul>
+    </div>
+
+    <div class="section split">
+      <div><h2>Nguyên nhân và phòng ngừa</h2></div>
+      <div class="faq" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+        <div><h3>Nguyên nhân nào gây ung thư cổ tử cung?</h3><p>Nguyên nhân chính là nhiễm virus HPV nguy cơ cao kéo dài, nhất là típ 16 và 18. Nguy cơ tăng nếu quan hệ sớm, nhiều bạn tình, hút thuốc, suy giảm miễn dịch. Pap và HPV DNA giúp phát hiện tổn thương tiền ung thư trước khi thành ung thư.</p></div>
+        <div><h3>Làm sao phòng ngừa hiệu quả?</h3><p>Tiêm vắc-xin HPV theo lịch, sàng lọc định kỳ bằng Pap và/hoặc HPV DNA, điều trị sớm tổn thương tiền ung thư. Kết hợp không hút thuốc và quan hệ an toàn. Vắc-xin không thay thế xét nghiệm Pap.</p></div>
+        <div><h3>Cần chuẩn bị gì trước khi lấy mẫu Pap?</h3><p>Không lấy mẫu lúc đang hành kinh. Trong 24–48 giờ trước: không giao hợp, không đặt thuốc âm đạo, không thụt rửa. Không bôi gel bôi trơn vào mỏ vịt khi lấy mẫu.</p></div>
+        <div><h3>Kết quả Pap đọc theo hệ thống nào?</h3><p>Chẩn đoán dựa trên hệ thống Bethesda 2014: đủ mẫu hay không; NILM; ASC-US; ASC-H; LSIL; HSIL; tế bào tuyến bất thường (AGC); nghi ung thư. Thời gian trả kết quả do từng lab quy định.</p></div>
+        <div><h3>Nếu phát hiện bất thường, điều trị ở đâu?</h3><p>Vạn Hưng cung cấp hóa chất xét nghiệm, không trực tiếp điều trị. Bác sĩ sản phụ khoa chỉ định soi cổ tử cung, sinh thiết và chuyển tuyến. Bệnh viện thường nhận điều trị: Bệnh viện Ung Bướu TP.HCM, Bệnh viện Từ Dũ, Bệnh viện Phụ sản Trung ương, Bệnh viện Đại học Y Dược TP.HCM và các bệnh viện sản phụ khoa.</p></div>
+      </div>
+    </div>
+
+    <div class="section" style="border-top:0;padding-top:12px">
+      <div class="closing">
+        <div class="big">Cần tư vấn về xét nghiệm Pap Liqui-PREP®?</div>
+        <p style="max-width:62ch">Gọi trong giờ hành chính hoặc gửi yêu cầu. Ghi rõ đơn vị, loại hóa chất hoặc bộ thu mẫu và số lượng.</p>
+        <div class="actions" style="margin-top:8px">
+          <button class="btn gold" type="button" data-scroll="lien-he">Xem thông tin liên hệ</button>
+          <a class="btn" href="#ky-thuat">Tìm hiểu kỹ thuật Liqui-PREP®</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANG: HISTOPOT ============ -->
+<section id="p-histopot" aria-label="HistoPot dung dịch cố định mô" hidden>
+  <div class="wrap">
+    <div class="page-head has-media">
+      <div>
+        <div class="eyebrow">Hóa chất mô học</div>
+        <h1>HistoPot: chuyên gia cố định</h1>
+        <p class="lead">Dung dịch cố định mẫu sinh thiết tiêu chuẩn, đóng gói tiện lợi và không mùi. Điều trị đúng đích bắt nguồn từ chẩn đoán chính xác.</p>
+        <div class="actions">
+          <button class="btn gold" type="button" data-scroll="lien-he">Liên hệ tư vấn</button>
+        </div>
+      </div>
+      <div class="panel-white"><img src="img/histopot-hero.jpg" alt="Các thùng và lọ dung dịch cố định mô HistoPot" width="900" height="623"></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="section split">
+      <div>
+        <h2>Dung dịch cố định mẫu sinh thiết tiêu chuẩn</h2>
+      </div>
+      <div class="stack-gap">
+        <div class="pc">
+          <div>
+            <h3>Ưu điểm</h3>
+            <ul class="list">
+              <li>Dễ sử dụng.</li>
+              <li>Bảo quản tốt cho nhiều loại mô.</li>
+              <li>Cho phép bảo quản ngắn hạn và dài hạn.</li>
+              <li>Không mùi, giảm thiểu độc tính.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Cần lưu ý</h3>
+            <ul class="list">
+              <li>Độc hại nếu hít phải hoặc tiếp xúc.</li>
+              <li>Có thể gây biến tính protein nếu không sử dụng đúng cách.</li>
+            </ul>
+          </div>
+        </div>
+        <div>
+          <h3 style="margin-bottom:12px">Đóng gói tiện lợi</h3>
+          <ul class="ticks">
+            <li>Lọ chứa dung dịch, đóng gói được nhiều thể tích.</li>
+            <li>Lọ có nhãn ghi mẫu, tiện ghi chép và chỉ định yêu cầu.</li>
+            <li>Thể tích đa dạng, tiện cố định nhiều loại mô học.</li>
+            <li>Giảm thao tác, tránh nguy cơ tiếp xúc và hít phải chất độc hại.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section split">
+      <div><h2>Lý do cần sử dụng HistoPot</h2></div>
+      <div class="cols-2" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">
+        <div class="val"><h3>Bảo quản lâu dài</h3><p>Các dung dịch như formalin giúp bảo quản mô trong thời gian dài mà không bị phân hủy, giữ nguyên cấu trúc và hình thái của mô để có thể nghiên cứu sau này.</p></div>
+        <div class="val"><h3>Ngăn ngừa phân hủy</h3><p>Dung dịch bảo quản ngăn chặn hoạt động của vi khuẩn và enzyme, làm chậm hoặc dừng quá trình phân hủy tự nhiên của mô.</p></div>
+        <div class="val"><h3>Giữ nguyên tính chất sinh học</h3><p>Một số dung dịch bảo quản giúp giữ lại các đặc tính sinh học của mô như kháng nguyên, DNA và RNA. Điều này rất quan trọng cho các nghiên cứu về sinh học phân tử và miễn dịch học.</p></div>
+        <div class="val"><h3>Đảm bảo chất lượng chẩn đoán</h3><p>Trong y học, việc bảo quản mô chất lượng cao là cần thiết để đảm bảo kết quả chẩn đoán chính xác, đặc biệt trong giải phẫu bệnh và ung thư học.</p></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="safety">
+        <figure class="photo" style="margin:0"><img src="img/safety.jpg" alt="Nhân viên y tế đeo khẩu trang và mặc áo choàng bảo hộ, tay cầm bông hồng trắng" width="520" height="790"></figure>
+        <div>
+          <div class="eyebrow">An toàn lao động</div>
+          <h2>Làm thế nào để chủ động an toàn trong môi trường hóa chất độc hại?</h2>
+          <p class="prose" style="margin-top:16px;color:var(--muted)">Làm việc trong môi trường độc hại đòi hỏi sự cảnh giác và tuân thủ các biện pháp an toàn để bảo vệ sức khỏe. Lao động trong môi trường độc hại có thể phòng tránh, và HistoPot góp phần an toàn khi sử dụng.</p>
+          <div class="motto">Không chủ quan, không lơ là. An toàn là trên hết.</div>
+        </div>
+      </div>
+
+      <div class="checks">
+        <div><h3>Nhận thức về nguy cơ</h3><p>Hiểu rõ các chất độc hại. Mỗi loại hóa chất hoặc chất thải có mức độ độc hại khác nhau, nên cần nắm MSDS (Material Safety Data Sheets) của chúng.</p></div>
+        <div><h3>Thiết bị bảo hộ cá nhân (PPE)</h3><p>Dùng đúng PPE gồm găng tay, khẩu trang, kính bảo hộ, áo choàng và giày bảo hộ, phù hợp với loại chất độc đang làm việc.</p></div>
+        <div><h3>Thông gió và kiểm soát ô nhiễm</h3><p>Môi trường làm việc cần có hệ thống thông gió để loại bỏ hơi độc hại. Làm việc trong tủ hút khí khi có thể.</p></div>
+        <div><h3>An toàn hóa chất</h3><p>Với hóa chất, đặc biệt là formalin, tuân thủ quy định về sử dụng, lưu trữ và xử lý, và dùng tủ hút khí để giảm nguy cơ hít phải hơi độc hại.</p><p>Có sẵn phương tiện và quy trình xử lý ngay sự cố tràn đổ hóa chất.</p></div>
+        <div><h3>Thiết kế và cơ sở vật chất</h3><p>Thông gió tốt, đặc biệt ở khu vực xử lý mẫu, để loại bỏ khí độc và mùi hôi.</p><p>Phân khu làm việc rõ ràng, từ khu nhận mẫu đến khu xử lý và khu đọc kết quả, để luồng di chuyển hợp lý.</p></div>
+        <div><h3>Quy trình làm việc</h3><p>Tuân thủ quy trình chuẩn về xử lý mẫu, bảo quản, nhuộm và phân tích để giảm thiểu rủi ro.</p><p>Khử trùng bề mặt, dụng cụ và thiết bị thường xuyên.</p></div>
+        <div><h3>Đào tạo và nâng cao năng lực</h3><p>Toàn bộ nhân viên được đào tạo về quy trình an toàn liên quan đến hóa chất, sinh học và xử lý mẫu, và tham gia đào tạo liên tục để cập nhật kiến thức.</p></div>
+        <div><h3>Quản lý chất thải</h3><p>Chất thải y tế, đặc biệt là chất thải nguy hại từ formalin và mẫu sinh học, phải được phân loại, thu gom và xử lý đúng cách theo quy định của Bộ Y tế và các quy định về quản lý chất thải nguy hại.</p></div>
+        <div><h3>Chính sách và quy định</h3><p>Làm việc theo đúng các quy định về an toàn lao động, sức khỏe và môi trường của Việt Nam.</p></div>
+      </div>
+      <p class="motto" style="margin-top:32px">Môi trường làm việc an toàn, năng suất cao.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRANG: HOẠT ĐỘNG KHOA HỌC ============ -->
+<section id="p-hoat-dong-khoa-hoc" aria-label="Hoạt động khoa học" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <div>
+        <div class="eyebrow">Hội nghị và đào tạo</div>
+        <h1>Hoạt động khoa học</h1>
+        <p class="lead">Vạn Hưng đồng hành cùng các hội nghị y học và chương trình đào tạo liên tục cùng Quý Bác sĩ.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="section split">
+      <div>
+        <h2>Hội nghị và chương trình đào tạo</h2>
+        <p class="sub">Các hoạt động Vạn Hưng tham gia hằng năm, giai đoạn 2023–2026.</p>
+      </div>
+      <div class="tbl-wrap">
+        <table class="yr" style="min-width:520px">
+          <thead><tr><th>Chương trình</th><th class="y">2023</th><th class="y">2024</th><th class="y">2025</th><th class="y">2026</th></tr></thead>
+          <tbody>
+            <tr><td>Hội nghị khoa học thường niên GPB</td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td></tr>
+            <tr><td>Hội nghị sản phụ khoa, Bệnh viện Trung ương Huế</td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td></tr>
+            <tr><td>Tuần lễ đào tạo liên tục, Bệnh viện Đại học Y Dược</td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td></tr>
+            <tr><td>Hội nghị khoa học thường niên HOSREM</td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td><td class="y"><span class="dot" role="img" aria-label="Có tham gia"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section split">
+      <div><h2>Đơn vị đồng hành</h2></div>
+      <div>
+        <ul class="chips">
+          <li>Bệnh viện Từ Dũ</li>
+          <li>Bệnh viện Đại học Y Dược TP.HCM</li>
+          <li>Bệnh viện Trung ương Huế</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot" id="lien-he">
+  <div class="wrap">
+    <div class="grid">
+      <div>
+        <h2>Liên hệ báo giá, đặt hàng</h2>
+        <p style="color:var(--muted);margin-top:10px;font-size:.95rem;max-width:42ch">Ghi rõ tên đơn vị, loại hóa chất (Pap Liqui-PREP®, HPV DNA HC2, bộ thu mẫu) và số lượng.</p>
+      </div>
+      <dl>
+        <dt>Công ty</dt><dd>Công ty TNHH Trang thiết bị y tế Vạn Hưng</dd>
+        <dt>Địa chỉ</dt><dd>31 Trần Thị Ngôi, P. Chánh Hưng, TP.HCM</dd>
+        <dt>Điện thoại</dt><dd><a href="tel:+842838521661">(028) 3852 1661</a></dd>
+        <dt>Hotline, Zalo</dt><dd><a href="tel:+84911151001" id="hotline">091 115 1001</a><button class="copy" type="button" data-copy="091 115 1001">Sao chép</button></dd>
+        <dt>Email</dt><dd><a href="mailto:vanhung@vanhungmedical.vn" id="email">vanhung@vanhungmedical.vn</a><button class="copy" type="button" data-copy="vanhung@vanhungmedical.vn">Sao chép</button></dd>
+      </dl>
+    </div>
+    <p class="disclaimer">Thông tin trên trang mang tính tham khảo và không thay thế tư vấn của bác sĩ. Vạn Hưng cung cấp hóa chất xét nghiệm, không trực tiếp điều trị. Bác sĩ sản phụ khoa chỉ định soi cổ tử cung, sinh thiết và chuyển tuyến.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var routes=['gioi-thieu','ky-thuat','histopot','xet-nghiem-pap','hoat-dong-khoa-hoc'];
+  var smooth=!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
+  var first=true;
+  function show(){
+    var r=(location.hash||'').replace('#','');
+    if(routes.indexOf(r)<0) r=routes[0];
+    routes.forEach(function(k){
+      var el=document.getElementById('p-'+k); if(el) el.hidden=(k!==r);
+    });
+    document.querySelectorAll('[data-nav]').forEach(function(a){
+      if(a.getAttribute('data-nav')===r) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
+    });
+    if(!first) window.scrollTo(0,0);
+    first=false;
+  }
+  addEventListener('hashchange',show); show();
+  document.querySelectorAll('[data-scroll]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=document.getElementById(b.getAttribute('data-scroll'));
+      if(t) t.scrollIntoView({behavior:smooth?'smooth':'auto',block:'start'});
+    });
+  });
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var txt=b.getAttribute('data-copy'), old=b.textContent;
+      function done(){ b.textContent='Đã chép'; setTimeout(function(){b.textContent=old;},1600); }
+      function fallback(){
+        var node=b.previousElementSibling;
+        if(node&&window.getSelection){var rg=document.createRange();rg.selectNodeContents(node);var s=getSelection();s.removeAllRanges();s.addRange(rg);}
+      }
+      try{
+        navigator.clipboard.writeText(txt).then(done,fallback);
+      }catch(e){ fallback(); }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
